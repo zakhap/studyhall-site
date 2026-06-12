@@ -2,3 +2,6 @@
 .playwright-mcp/
 *.log
 node_modules/
+
+# large source image (web version lives in img/)
+/hero.png
