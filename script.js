@@ -3,16 +3,27 @@
    No dependencies. Vanilla JS.
    ============================================================ */
 
-/* -------------------- Hero glitter particles -------------------- */
-(function heroParticles() {
+/* -------------------- Hero flow field --------------------
+   Fine monochrome ink-lines drift along a smooth pseudo-noise
+   vector field over a faint graph-paper grid, and bend away
+   from the cursor. Trails fade via a translucent overlay.
+---------------------------------------------------------- */
+(function heroFlowField() {
   const canvas = document.querySelector(".hero__canvas");
-  if (!canvas) return;
+  const hero = document.querySelector(".hero");
+  if (!canvas || !hero) return;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ctx = canvas.getContext("2d");
-  let w, h, dpr, particles, raf;
 
-  const COLORS = ["#ffffff", "#cdbcff", "#ffd0e6", "#bfeaff", "#ffe9a8"];
+  const BG = "rgba(7, 7, 11, 1)";
+  const FADE = "rgba(7, 7, 11, 0.055)"; // lower alpha = longer trails
+  const GRID = 46;
+  const SPEED = 0.85;
+  const MOUSE_R = 130;
+
+  let w, h, dpr, particles, raf;
+  const mouse = { x: 0, y: 0, active: false };
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -21,55 +32,126 @@
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = BG;
+    ctx.fillRect(0, 0, w, h);
     seed();
   }
 
-  function seed() {
-    const count = Math.round((w * h) / 14000); // density scales with area
-    particles = Array.from({ length: Math.min(count, 160) }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 1.8 + 0.4,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      tw: Math.random() * Math.PI * 2, // twinkle phase
-      tws: Math.random() * 0.02 + 0.005,
-      c: COLORS[(Math.random() * COLORS.length) | 0],
-    }));
+  function spawn(p) {
+    p.x = Math.random() * w;
+    p.y = Math.random() * h;
+    p.px = p.x;
+    p.py = p.y;
+    p.life = (Math.random() * 160 + 60) | 0;
+    p.alpha = Math.random() * 0.35 + 0.18;
+    return p;
   }
 
-  function frame() {
-    ctx.clearRect(0, 0, w, h);
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.tw += p.tws;
-      if (p.x < -5) p.x = w + 5;
-      if (p.x > w + 5) p.x = -5;
-      if (p.y < -5) p.y = h + 5;
-      if (p.y > h + 5) p.y = -5;
+  function seed() {
+    const count = Math.min(520, Math.round((w * h) / 4200));
+    particles = Array.from({ length: count }, () => spawn({}));
+  }
 
-      const alpha = 0.35 + Math.sin(p.tw) * 0.35;
-      ctx.globalAlpha = Math.max(0, alpha);
-      ctx.fillStyle = p.c;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
+  // smooth, cheap noise-ish field (no libraries)
+  function angleAt(x, y, t) {
+    return (
+      (Math.sin(x * 0.0016 + t) +
+        Math.cos(y * 0.0021 - t * 0.8) +
+        Math.sin((x + y) * 0.0009 + t * 0.5)) *
+      1.35
+    );
+  }
+
+  function drawGrid() {
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.022)";
+    ctx.beginPath();
+    for (let x = 0; x <= w; x += GRID) {
+      ctx.moveTo(x + 0.5, 0);
+      ctx.lineTo(x + 0.5, h);
     }
-    ctx.globalAlpha = 1;
-    raf = requestAnimationFrame(frame);
+    for (let y = 0; y <= h; y += GRID) {
+      ctx.moveTo(0, y + 0.5);
+      ctx.lineTo(w, y + 0.5);
+    }
+    ctx.stroke();
+  }
+
+  function step(ts) {
+    // fade previous frame toward background
+    ctx.fillStyle = FADE;
+    ctx.fillRect(0, 0, w, h);
+    drawGrid();
+
+    const t = ts * 0.00007;
+    ctx.lineWidth = 1.1;
+
+    for (const p of particles) {
+      const a = angleAt(p.x, p.y, t);
+      let vx = Math.cos(a) * SPEED;
+      let vy = Math.sin(a) * SPEED;
+
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < MOUSE_R * MOUSE_R) {
+          const d = Math.sqrt(d2) || 1;
+          const f = (1 - d / MOUSE_R) * 3.2;
+          vx += (dx / d) * f;
+          vy += (dy / d) * f;
+        }
+      }
+
+      p.px = p.x;
+      p.py = p.y;
+      p.x += vx;
+      p.y += vy;
+      p.life--;
+
+      if (p.x < 0 || p.x > w || p.y < 0 || p.y > h || p.life < 0) {
+        spawn(p);
+        continue;
+      }
+
+      ctx.strokeStyle = "rgba(220, 226, 240, " + p.alpha + ")";
+      ctx.beginPath();
+      ctx.moveTo(p.px, p.py);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+    }
+
+    raf = requestAnimationFrame(step);
+  }
+
+  function drawStatic() {
+    ctx.fillStyle = BG;
+    ctx.fillRect(0, 0, w, h);
+    drawGrid();
+    ctx.strokeStyle = "rgba(220, 226, 240, 0.22)";
+    ctx.lineWidth = 1.1;
+    for (const p of particles) {
+      const a = angleAt(p.x, p.y, 0);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + Math.cos(a) * 14, p.y + Math.sin(a) * 14);
+      ctx.stroke();
+    }
   }
 
   resize();
   window.addEventListener("resize", resize, { passive: true });
 
-  if (reduce) {
-    // draw one static field, no animation
-    frame();
-    cancelAnimationFrame(raf);
-  } else {
-    frame();
-  }
+  hero.addEventListener("pointermove", (e) => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+    mouse.active = true;
+  });
+  hero.addEventListener("pointerleave", () => (mouse.active = false));
+
+  if (reduce) drawStatic();
+  else raf = requestAnimationFrame(step);
 })();
 
 /* -------------------- Email capture -------------------- */
