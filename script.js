@@ -16,11 +16,12 @@
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ctx = canvas.getContext("2d");
 
-  const BG = "rgba(7, 7, 11, 1)";
-  const FADE = "rgba(7, 7, 11, 0.055)"; // lower alpha = longer trails
+  const BG = "rgba(4, 4, 6, 1)";
+  const FADE = "rgba(4, 4, 6, 0.05)"; // lower alpha = longer trails
   const GRID = 46;
-  const SPEED = 0.85;
-  const MOUSE_R = 130;
+  const SPEED = 0.7;
+  const MOUSE_R = 140;
+  const LINE = "120, 152, 176"; // cold steel-blue, alpha applied per particle
 
   let w, h, dpr, particles, raf;
   const mouse = { x: 0, y: 0, active: false };
@@ -43,7 +44,7 @@
     p.px = p.x;
     p.py = p.y;
     p.life = (Math.random() * 160 + 60) | 0;
-    p.alpha = Math.random() * 0.35 + 0.18;
+    p.alpha = Math.random() * 0.26 + 0.08;
     return p;
   }
 
@@ -64,7 +65,7 @@
 
   function drawGrid() {
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.022)";
+    ctx.strokeStyle = "rgba(120, 152, 176, 0.02)";
     ctx.beginPath();
     for (let x = 0; x <= w; x += GRID) {
       ctx.moveTo(x + 0.5, 0);
@@ -114,7 +115,7 @@
         continue;
       }
 
-      ctx.strokeStyle = "rgba(220, 226, 240, " + p.alpha + ")";
+      ctx.strokeStyle = "rgba(" + LINE + ", " + p.alpha + ")";
       ctx.beginPath();
       ctx.moveTo(p.px, p.py);
       ctx.lineTo(p.x, p.y);
@@ -128,7 +129,7 @@
     ctx.fillStyle = BG;
     ctx.fillRect(0, 0, w, h);
     drawGrid();
-    ctx.strokeStyle = "rgba(220, 226, 240, 0.22)";
+    ctx.strokeStyle = "rgba(" + LINE + ", 0.2)";
     ctx.lineWidth = 1.1;
     for (const p of particles) {
       const a = angleAt(p.x, p.y, 0);
