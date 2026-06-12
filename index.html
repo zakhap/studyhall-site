@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>study hall :: monday nights in new york</title>
+  <meta name="description" content="study hall is a recurring monday-night meetup in new york city — vibe coding, demos, and DJs across research, ai, art, and music." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="study hall" />
+  <meta property="og:description" content="a recurring monday-night meetup in new york city — vibe coding, demos, and DJs." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================ HERO ============================ -->
+  <header class="hero">
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <h1 class="wordmark">study&nbsp;hall</h1>
+
+    <div class="hero__foot">
+      <p class="intro">
+        study hall is a recurring monday-night meetup in new york city —
+        vibe coding, demos, and DJs across research, ai, art, and music.
+        study hall is hosted by
+        <a href="https://charliefreiberg.com/?utm_source=studyhall" target="_blank" rel="noopener">Charlie Freiberg</a>
+        and
+        <a href="mailto:zakhap@gmail.com">Zak Hap</a>.
+      </p>
+
+      <!-- Email capture. Swap data-endpoint for a Buttondown/Formspree/Mailchimp URL to go live. -->
+      <form class="signup" data-endpoint="" novalidate>
+        <label class="signup__label" for="email">get on the list</label>
+        <div class="signup__row">
+          <input
+            class="signup__input"
+            id="email"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="you@email.com"
+            required
+          />
+          <button class="signup__btn" type="submit">join</button>
+        </div>
+        <p class="signup__msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </header>
+
+  <!-- ============================ EVENTS ============================ -->
+  <main class="page">
+    <section class="events" aria-labelledby="events-title">
+      <h2 id="events-title" class="section-title">events</h2>
+
+      <ol class="event-list">
+
+        <!-- vol 8 — UPCOMING -->
+        <li class="event event--next">
+          <div class="event__no">8</div>
+          <div class="event__body">
+            <span class="badge">next · mon jun 15</span>
+            <div class="block">
+              <span class="block__label">the fable hackathon 🏆</span>
+              <p class="block__lede">an unauthorized one-hour hackathon — build something with Fable, demo it, win a rubber-rat trophy. no technical experience required.</p>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <span>Betty — Dimes Square, NYC</span>
+            </div>
+            <a class="rsvp" href="https://partiful.com/e/WdwqxktogpwHvippNx1G" target="_blank" rel="noopener">rsvp →</a>
+          </div>
+          <p class="event__date">Jun 15, 2026</p>
+        </li>
+
+        <!-- vol 7 -->
+        <li class="event">
+          <div class="event__no">7</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">haunted house of machines @ lincoln center</span>
+              <ul class="people">
+                <li><span class="people__name">Lance Weiler</span><span class="people__what"> — Columbia Digital Storytelling Lab</span></li>
+                <li><span class="people__name">Char Simpson</span><span class="people__what"> — narrative design for immersive horror</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">with</span>
+              <span>Columbia DSL · The Last Human Collective</span>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/CAwrFFOziiLtV21Tv9ux" target="_blank" rel="noopener">Lincoln Center</a>
+            </div>
+          </div>
+          <p class="event__date">May 18, 2026</p>
+        </li>
+
+        <!-- vol 6 -->
+        <li class="event">
+          <div class="event__no">6</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">"sandboxing" with AIR 🏖️</span>
+              <ul class="people">
+                <li><span class="people__name">Pedro Sanches</span><span class="people__what"> — Spells, collaborative coding chat</span></li>
+                <li><span class="people__name">Yujin Lee</span><span class="people__what"> — KO, an AI companion</span></li>
+                <li><span class="people__name">Maxime Heckel</span><span class="people__what"> — real-time skies &amp; shaders</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/aveyzVHAHDHaTrw0lVU3" target="_blank" rel="noopener">ETET</a>
+            </div>
+          </div>
+          <p class="event__date">May 11, 2026</p>
+        </li>
+
+        <!-- vol 5 -->
+        <li class="event">
+          <div class="event__no">5</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">gidgets, gadgets, gizmos</span>
+              <ul class="people">
+                <li><span class="people__name">Andrew Boylan</span><span class="people__what"> — interactive installations</span></li>
+                <li><span class="people__name">Jessica Garson</span><span class="people__what"> — live-coded visuals</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">musical guest</span>
+              <span>DJ set</span>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/ZM7OqYyN0mjeVw55fGWI" target="_blank" rel="noopener">ETET</a>
+            </div>
+          </div>
+          <p class="event__date">Apr 6, 2026</p>
+        </li>
+
+        <!-- vol 4 -->
+        <li class="event">
+          <div class="event__no">4</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">play mafia with plastic labs</span>
+              <ul class="people">
+                <li><span class="people__name">Vineeth Voruganti</span><span class="people__what"> — Honcho, AI agent characters</span></li>
+                <li><span class="people__name">Eri Barrett</span><span class="people__what"> — Plastic Labs</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">musical guest</span>
+              <span>Eri Barrett — electro &amp; mellow deepcuts</span>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/dY3VvWPxKoXbJhKGrwdo" target="_blank" rel="noopener">ETET</a>
+            </div>
+          </div>
+          <p class="event__date">Mar 23, 2026</p>
+        </li>
+
+        <!-- vol 3 -->
+        <li class="event">
+          <div class="event__no">3</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">study hall × zo</span>
+              <ul class="people">
+                <li><span class="people__name">Ben Guo</span><span class="people__what"> — Zo Computer</span></li>
+                <li><span class="people__name">Vince Picone</span><span class="people__what"> — Hume AI</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">musical guest</span>
+              <span>snav — rare vinyl</span>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/a7xFPAwG2CkhPd7qHs8S" target="_blank" rel="noopener">ETET</a>
+            </div>
+          </div>
+          <p class="event__date">Mar 9, 2026</p>
+        </li>
+
+        <!-- vol 2 -->
+        <li class="event">
+          <div class="event__no">2</div>
+          <div class="event__body">
+            <div class="block">
+              <span class="block__label">demos &amp; vinyl</span>
+              <ul class="people">
+                <li><span class="people__name">Chandiran Dhukkaram</span><span class="people__what"> — systems demo</span></li>
+              </ul>
+            </div>
+            <div class="block">
+              <span class="block__label">musical guest</span>
+              <span>DJ Snav — rare vinyl</span>
+            </div>
+            <div class="block">
+              <span class="block__label">venue</span>
+              <a href="https://partiful.com/e/YdcFFhNyRymvqf9uq24v" target="_blank" rel="noopener">ETET</a>
+            </div>
+          </div>
+          <p class="event__date">Feb 16, 2026</p>
+        </li>
+
+      </ol>
+    </section>
+
+    <!-- ============================ GALLERY ============================ -->
+    <section class="gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" class="section-title">from the room</h2>
+      <p class="gallery__note">photos by our event photographer — drop real shots into <code>/img</code> and swap these tiles.</p>
+      <div class="collage">
+        <!-- Replace each tile with <img src="img/..."> as photos come in. Vary the data-span for collage rhythm. -->
+        <figure class="tile" data-span="wide"></figure>
+        <figure class="tile"></figure>
+        <figure class="tile"></figure>
+        <figure class="tile" data-span="tall"></figure>
+        <figure class="tile"></figure>
+        <figure class="tile" data-span="wide"></figure>
+        <figure class="tile"></figure>
+        <figure class="tile"></figure>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer">
+    <a href="https://partiful.com/e/WdwqxktogpwHvippNx1G" target="_blank" rel="noopener">partiful</a>
+    <span class="footer__credit">study hall · made on mondays in nyc</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
