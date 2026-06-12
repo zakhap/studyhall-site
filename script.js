@@ -65,7 +65,7 @@
 
   function drawGrid() {
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(120, 152, 176, 0.02)";
+    ctx.strokeStyle = "rgba(120, 152, 176, 0.012)";
     ctx.beginPath();
     for (let x = 0; x <= w; x += GRID) {
       ctx.moveTo(x + 0.5, 0);
